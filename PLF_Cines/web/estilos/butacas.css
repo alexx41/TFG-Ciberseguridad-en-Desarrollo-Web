@@ -1,0 +1,23 @@
+/* Add your styles here */
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.butaca {
+    width: 50px; /* Adjust as needed */
+    cursor: pointer;
+}
+
+.sala {
+    position: relative;
+}
+
+.pantalla {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
