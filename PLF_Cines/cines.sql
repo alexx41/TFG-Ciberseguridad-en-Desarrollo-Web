@@ -61,7 +61,7 @@ CREATE TABLE Reserva (
 
 -- object: Comentario | type: TABLE --
 CREATE TABLE Comentario (
-    texto varchar(500) NOT NULL,
+    texto varchar(1000) NOT NULL,
     valoracion smallint NOT NULL,
     fechaComentario date NOT NULL,
     email_Usuario varchar(50) NOT NULL,

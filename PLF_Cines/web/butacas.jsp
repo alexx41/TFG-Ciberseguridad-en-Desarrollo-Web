@@ -3,6 +3,7 @@
 <%@ page import="com.example.model.Sala" %>
 <%@ page import="com.example.model.Entrada" %>
 <%@ page import="com.example.model.Pelicula" %>
+<%@ page import="com.example.model.Usuario" %>
 
 <%@ page import="com.example.model.DatabaseManager" %>
 <%@ page import="com.example.model.Fecha" %>
@@ -58,6 +59,19 @@ try {
                             <ul class="nav navbar-nav ml-auto navbar-right">
                                 <li class="nav-item"><a href="index.jsp" class="nav-link">VOLVER AL MENU DE PELICULAS</a></li>
                                 <li class="nav-item"><a href="login.jsp" class="nav-link">REGISTRARSE</a></li>
+                                <% if (session.getAttribute("usuario") != null) { %>
+                                    <%
+                                        // Obtener el usuario de la sesión
+                                        System.out.println("EN EL INDEX USUARIO");
+                                        Usuario usuario = (Usuario) session.getAttribute("usuario");
+                                        String correoUsuario = (usuario != null) ? usuario.getCorreo() : "";
+                                    %>
+                                    <li class="nav-item">
+                                        <form id="logout-form" action="Logout" method="post" style="display: inline;">
+                                            <button type="submit" class="nav-link">CERRAR SESIÓN</button>
+                                        </form>
+                                    </li> 
+                                    <% }%>
                             </ul>
                         </div>
                     </div>

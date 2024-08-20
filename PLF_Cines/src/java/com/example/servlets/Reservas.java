@@ -25,7 +25,8 @@ public class Reservas extends HttpServlet {
         String peliculaId = request.getParameter("peliculaSeleccionada");
         String fecha = request.getParameter("fecha");
         String hora = request.getParameter("hora");
-
+        
+        System.out.println(session.getId());
         String sala = request.getParameter("salaSeleccionada");
         System.out.println(sala);
         try {

@@ -57,43 +57,51 @@ public class DatabaseManager {
     }
 
     public static void guardarUsuario(Usuario user) throws SQLException {
+        // Abre la conexión a la base de datos antes de realizar operaciones
         abrirConexion();
         try {
+            // Verifica que el usuario y su fecha de nacimiento no sean nulos antes de intentar guardarlos
             if (user != null && user.getFecha() != null) {
+                // Prepara la consulta SQL para insertar un nuevo usuario en la base de datos
                 String sql = "INSERT INTO usuario (nombre, apellidos, contrasenha, email, fechanacimiento) VALUES (?, ?, ?, ?, ?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    // Asigna los valores del usuario al PreparedStatement
                     preparedStatement.setString(1, user.getNombre());
                     preparedStatement.setString(2, user.getApellidos());
                     preparedStatement.setString(3, user.getContraseña());
                     preparedStatement.setString(4, user.getCorreo());
-                    // Obtén la fecha del usuario y conviértela a java.sql.Date
+                    // Convierte LocalDate a java.sql.Date para el campo de fecha de nacimiento
                     LocalDate localDate = user.getFecha().toLocalDate();
                     java.sql.Date fechaSQL = java.sql.Date.valueOf(localDate);
-
                     preparedStatement.setDate(5, fechaSQL);
+                    // Ejecuta la actualización y confirma la inserción
                     preparedStatement.executeUpdate();
                 }
             } else {
+                // Informa al usuario si el objeto usuario o la fecha son nulos
                 System.out.println("Error: Usuario o fecha es nulo.");
             }
         } catch (Exception e) {
+            // Maneja cualquier excepción imprimiendo la traza del error
             e.printStackTrace();
         } finally {
+            // Asegura que la conexión se cierre después de realizar las operaciones
             cerrarConexion();
         }
     }
 
     public static Usuario getUsuarioPorCorreo(String correo, String password) throws SQLException {
+        // Abre conexión a la base de datos
         abrirConexion();
         try {
-            // Vulnerable SQL query construction
+            // Construcción intencionadamente vulnerable de consulta SQL (No segura frente a SQL Injection)
             String sql = "SELECT * FROM usuario WHERE email = '" + correo + "' and contrasenha = '" + password + "'";
             System.out.println(sql);
+
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-
             if (resultSet.next()) {
-                // Create a new Usuario object from the result set
+                // Crea un objeto Usuario con los datos obtenidos de la base de datos
                 Usuario usuario = new Usuario(
                         resultSet.getString("nombre"),
                         resultSet.getString("apellidos"),
@@ -102,18 +110,18 @@ public class DatabaseManager {
                         new Fecha(resultSet.getString("fechanacimiento"))
                 );
                 System.out.println("Usuario encontrado: " + usuario);
-                return usuario;
+                return usuario; // Devuelve el usuario si se encuentra
             } else {
                 System.out.println("No se encontraron resultados para el correo electrónico proporcionado.");
-                return null;
+                return null; // Devuelve null si no se encuentra el usuario
             }
         } finally {
+            // Cierra la conexión a la base de datos independientemente de los resultados
             cerrarConexion();
         }
     }
 
-
-    /*
+    /* MITIGAR SQL INJECTION - PREPARED STATEMENT 
     public static Usuario getUsuarioPorCorreo(String correo) throws SQLException {
         abrirConexion();
         try {
@@ -148,12 +156,16 @@ public class DatabaseManager {
     }
      */
     public static void guardarPelicula(Pelicula pelicula) throws SQLException {
+        // Abre conexión a la base de datos antes de realizar operaciones de inserción
         abrirConexion();
         System.out.println("GuardarPelicula");
         try {
+            // Comprueba que el objeto película no sea nulo antes de intentar guardar en la base de datos
             if (pelicula != null) {
+                // Prepara la consulta SQL para insertar una nueva película en la base de datos
                 String sql = "INSERT INTO pelicula (nombrepelicula, sinopsis, paginaoficial, titulooriginal, genero, nacionalidad, duracion, anho, distribuidora, director, clasificacionEdad, otrosdatos, actores, url_image, url_video) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                    // Establece los valores de cada columna para la nueva entrada en la base de datos
                     preparedStatement.setString(1, pelicula.getNombre());
                     preparedStatement.setString(2, pelicula.getSinopsis());
                     preparedStatement.setString(3, pelicula.getPaginaOficial());
@@ -170,25 +182,33 @@ public class DatabaseManager {
                     preparedStatement.setString(14, pelicula.getUrl_image());
                     preparedStatement.setString(15, pelicula.getUrl_video());
 
+                    // Ejecuta la actualización y confirma la inserción
                     preparedStatement.executeUpdate();
                 }
             } else {
+                // Informa al usuario si el objeto película es nulo
                 System.out.println("Error: Pelicula es nula.");
             }
         } catch (Exception e) {
+            // Maneja cualquier excepción imprimiendo la traza del error
             e.printStackTrace();
         } finally {
+            // Asegura que la conexión se cierre después de realizar las operaciones
             cerrarConexion();
         }
     }
 
     public static List<Pelicula> getAllPeliculas() throws SQLException {
+        // Abre una conexión con la base de datos.
         abrirConexion();
+        // Lista para almacenar objetos Pelicula.
         List<Pelicula> peliculas = new ArrayList<>();
         try {
+            // SQL para seleccionar todas las películas en la base de datos.
             String sql = "SELECT * FROM pelicula";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                    // Itera sobre cada fila del resultado y crea objetos Pelicula.
                     while (resultSet.next()) {
                         Pelicula pelicula = new Pelicula(
                                 resultSet.getString("nombrepelicula"),
@@ -212,20 +232,22 @@ public class DatabaseManager {
                 }
             }
         } finally {
+            // Cierra la conexión con la base de datos.
             cerrarConexion();
         }
         return peliculas;
     }
 
     public static Pelicula getPeliculaPorNombre(String nombre) throws SQLException {
+        // Abre conexión a la base de datos.
         abrirConexion();
         try {
-            // Construcción insegura de la consulta SQL
+            // SQL inseguro que podría ser vulnerable a inyección SQL.
             String sql = "SELECT * FROM pelicula WHERE nombrepelicula = '" + nombre + "'";
-            System.out.println(sql);  // Esto es útil para depuración y para ver la consulta generada
+            System.out.println(sql);
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
-
+            // Verifica si se obtuvo algún resultado y crea un objeto Pelicula.
             if (resultSet.next()) {
                 return new Pelicula(
                         resultSet.getString("nombrepelicula"),
@@ -246,12 +268,32 @@ public class DatabaseManager {
                 );
             }
         } finally {
+            // Asegura que la conexión se cierre independientemente del resultado.
             cerrarConexion();
         }
         return null;
     }
 
-    /*
+    public static void borrarPelicula(Pelicula pelicula) throws SQLException {
+        // Abre la conexión a la base de datos.
+        abrirConexion();
+        try {
+            // Prepara una consulta SQL para borrar una película por nombre.
+            String sql = "DELETE FROM pelicula WHERE nombrepelicula = ?";
+            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+                // Establece el nombre de la película como parámetro de la consulta.
+                preparedStatement.setString(1, pelicula.getNombre());
+                // Ejecuta la actualización y confirma la eliminación.
+                preparedStatement.executeUpdate();
+            }
+        } finally {
+            // Cierra la conexión a la base de datos.
+            cerrarConexion();
+        }
+    }
+
+    /* MITIGAR SQL INJECTION - PREPARED STATEMENT
+    
     public static Pelicula getPeliculaPorNombre(String nombre) throws SQLException {
         abrirConexion();
         try {
@@ -286,19 +328,6 @@ public class DatabaseManager {
         return null;
     }
      */
-    public static void borrarPelicula(Pelicula pelicula) throws SQLException {
-        abrirConexion();
-        try {
-            String sql = "DELETE FROM pelicula WHERE nombrepelicula = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                preparedStatement.setString(1, pelicula.getNombre());
-                preparedStatement.executeUpdate();
-            }
-        } finally {
-            cerrarConexion();
-        }
-    }
-
     public static void modificarPelicula(String nombreActual, Pelicula nuevaPelicula) throws SQLException {
         abrirConexion();
         try {
@@ -804,56 +833,4 @@ public class DatabaseManager {
         }
     }
 
-    public static void guardarTarjeta(TarjetaCredito tarjeta) throws SQLException {
-        abrirConexion();
-
-        try {
-            if (tarjeta != null) {
-                String sql = "INSERT INTO tarjeta (numerotarjeta, nombretitular, fechaexpiracion, codigoseguridad, email_usuario) VALUES (?, ?, ?, ?, ?)";
-                try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-                    preparedStatement.setString(1, tarjeta.getNumeroTarjeta());
-                    preparedStatement.setString(2, tarjeta.getNombreTitular());
-
-                    preparedStatement.setString(3, tarjeta.getFecha());
-                    preparedStatement.setString(4, tarjeta.getCodigoSeguridad());
-                    preparedStatement.setString(5, tarjeta.getEmail_user());
-
-                    preparedStatement.executeUpdate();
-                    System.out.println("Comentario guardada correctamente.");
-                }
-            } else {
-                System.out.println("Error: El comentario es nula.");
-            }
-        } catch (SQLException e) {
-            System.err.println("Error al guardar la tarjeta: " + e.getMessage());
-
-        } finally {
-            cerrarConexion();
-        }
-    }
-
-    public boolean validarTarjeta(String email, String numeroTarjeta, String fechaExpiracion, String codigoSeguridad)
-            throws ClassNotFoundException, SQLException {
-        abrirConexion();
-        // Establecer la conexión con la base de datos
-        try {
-            // Consulta SQL para verificar la tarjeta del usuario
-
-            String sql = "SELECT * FROM tarjeta WHERE email_usuario = ? AND numerotarjeta = ? AND fechaexpiracion = ? AND codigoseguridad = ?";
-            try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-
-                preparedStatement.setString(1, email);
-                preparedStatement.setString(2, numeroTarjeta);
-                preparedStatement.setString(3, fechaExpiracion);
-                preparedStatement.setString(4, codigoSeguridad);
-
-                try (ResultSet resultSet = preparedStatement.executeQuery()) {
-                    // Si hay resultados, la tarjeta es válida
-                    return resultSet.next();
-                }
-            }
-        } finally {
-            cerrarConexion();
-        }
-    }
 }

@@ -5,6 +5,7 @@
         <meta charset="UTF-8">
         <title>Formulario</title>
         <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css'><link rel="stylesheet" href="estilos/login.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
 
     </head>
     <body>
@@ -37,7 +38,7 @@
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>o usa tu cuenta</span>
-                    <input type="text"   id = "mail-2" name="mail-2"/>
+                    <input type="text"   placeholder="Email" id = "mail-2" name="mail-2"/>
                     <input type="text" placeholder="Contrasena" id = "pswd-2" name="pswd-2"/>
                     <a href="#">¿Olvidaste tu contrasena?</a>
                     <button type="submit" id="Acceder">Acceder</button>

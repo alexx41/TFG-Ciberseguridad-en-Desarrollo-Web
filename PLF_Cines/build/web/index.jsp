@@ -1,4 +1,3 @@
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import="java.util.List" %>
 <%@ page import="java.time.LocalDate" %>
@@ -7,37 +6,56 @@
 <%@ page import="com.example.model.Pelicula" %>
 <%@ page import="com.example.model.DatabaseManager" %>
 <%@ page import="java.util.ArrayList" %>
-
+<%@ page import="com.example.model.Usuario" %>
 
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
         <script async src="https://www.googletagmanager.com/gtag/js?id=UA-155274620-1"></script>
         <title>Web oficial</title>
-
         <meta charset="utf-8">
-
         <link href="estilos/bootstrap.css" rel="stylesheet">
         <link href="estilos/style.css" rel="stylesheet">
         <link href="estilos/fontawesome.min.css" rel="stylesheet"/>
         <link href="estilos/multicines.css" rel="stylesheet" />
-
     </head>
     <body>
         <div id="wrapper" class="d-flex flex-column">
             <div class="header">
-                <nav class="navbar fixed-top navbar-site navbar-light bg-light navbar-expand-lg" role="navigation" >
+                <nav class="navbar fixed-top navbar-site navbar-light bg-light navbar-expand-lg" role="navigation">
                     <div class="container">
                         <div class="navbar-identity">
-
                             <button data-target=".navbar-collapse" data-toggle="collapse" class="navbar-toggler pull-right" type="button">
-                                <svg xmlns="https://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false"><title>Menu</title><path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/></svg>
+                                <svg xmlns="https://www.w3.org/2000/svg" viewbox="0 0 30 30" width="30" height="30" focusable="false">
+                                <title>Menu</title>
+                                <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10" d="M4 7h22M4 15h22M4 23h22"/>
+                                </svg>
                             </button>
                         </div>
                         <div class="navbar-collapse collapse" style="height: auto;">
+                            <ul class="nav navbar-nav mr-auto">
+                                <% if (session.getAttribute("usuario") != null) { %>
+                                <%
+                                    // Obtener el usuario de la sesión
+                                    Usuario usuario = (Usuario) session.getAttribute("usuario");
+                                    String correoUsuario = (usuario != null) ? usuario.getCorreo() : "";
+                                %>
+                                <!-- Mostrar el correo electrónico del usuario -->
+                                <li class="nav-item">
+                                    <span class="nav-link" style="font-size: 1.1rem;">Hola, <%= correoUsuario %></span>
+                                </li>
+                                <% } %>
+                            </ul>
                             <ul class="nav navbar-nav ml-auto navbar-right">
                                 <li class="nav-item"><a href="index.jsp" class="nav-link">VOLVER AL MENU DE PELICULAS</a></li>
                                 <li class="nav-item"><a href="login.jsp" class="nav-link">REGISTRARSE</a></li>
+                                    <% if (session.getAttribute("usuario") != null) { %>
+                                <li class="nav-item">
+                                    <form id="logout-form" action="Logout" method="post" style="display: inline;">
+                                        <button type="submit" class="nav-link">CERRAR SESIÓN</button>
+                                    </form>
+                                </li> 
+                                <% } %>
                             </ul>
                         </div>
                     </div>
