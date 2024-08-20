@@ -1,6 +1,7 @@
 # TFG-Ciberseguridad en Desarrollo Web
-PLF
- Repositorio empleado para la web usada como explicación para exponer las vulnerabilidades y a la que se le ha aplicado hacking ético. Para entender mejor su popósito es necesario que vaya acompañado de la memoria.
+PLF_Cines:
+
+ Directorio empleado para la web usada como explicación para exponer las vulnerabilidades y a la que se le ha aplicado hacking ético. Para entender mejor su popósito es necesario que vaya acompañado de la memoria.
 
  Contará con una serie de diferentes commits, donde en cada una la web estará actualizada con la vulnerabilidad detectada, explicada, atacada y mitigada.
 
