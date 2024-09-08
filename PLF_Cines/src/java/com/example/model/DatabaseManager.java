@@ -90,11 +90,11 @@ public class DatabaseManager {
         }
     }
 
+    /*
     public static Usuario getUsuarioPorCorreo(String correo, String password) throws SQLException {
         // Abre conexión a la base de datos
         abrirConexion();
-        try {
-            // Construcción intencionadamente vulnerable de consulta SQL (No segura frente a SQL Injection)
+        try { 
             String sql = "SELECT * FROM usuario WHERE email = '" + correo + "' and contrasenha = '" + password + "'";
             System.out.println(sql);
 
@@ -120,15 +120,15 @@ public class DatabaseManager {
             cerrarConexion();
         }
     }
-
-    /* MITIGAR SQL INJECTION - PREPARED STATEMENT 
-    public static Usuario getUsuarioPorCorreo(String correo) throws SQLException {
+     */
+//MITIGAR SQL INJECTION - PREPARED STATEMENT 
+    public static Usuario getUsuarioPorCorreo(String correo, String password) throws SQLException {
         abrirConexion();
         try {
-            String sql = "SELECT * FROM usuario WHERE email = ?";
+            String sql = "SELECT * FROM usuario WHERE email = ? and contrasenha = ?";
             try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
                 preparedStatement.setString(1, correo);
-
+                preparedStatement.setString(2, password);
                 try (ResultSet resultSet = preparedStatement.executeQuery()) {
 
                     if (resultSet.next()) {
@@ -152,9 +152,8 @@ public class DatabaseManager {
         } finally {
             cerrarConexion();
         }
-
     }
-     */
+
     public static void guardarPelicula(Pelicula pelicula) throws SQLException {
         // Abre conexión a la base de datos antes de realizar operaciones de inserción
         abrirConexion();
@@ -238,35 +237,50 @@ public class DatabaseManager {
         return peliculas;
     }
 
+    // Método para obtener una película por nombre utilizando PreparedStatement.
     public static Pelicula getPeliculaPorNombre(String nombre) throws SQLException {
         // Abre conexión a la base de datos.
         abrirConexion();
-        try {
-            // SQL inseguro que podría ser vulnerable a inyección SQL.
-            String sql = "SELECT * FROM pelicula WHERE nombrepelicula = '" + nombre + "'";
-            System.out.println(sql);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-            // Verifica si se obtuvo algún resultado y crea un objeto Pelicula.
-            if (resultSet.next()) {
-                return new Pelicula(
-                        resultSet.getString("nombrepelicula"),
-                        resultSet.getString("sinopsis"),
-                        resultSet.getString("paginaOficial"),
-                        resultSet.getString("titulooriginal"),
-                        resultSet.getString("genero"),
-                        resultSet.getString("nacionalidad"),
-                        resultSet.getInt("duracion"),
-                        resultSet.getInt("anho"),
-                        resultSet.getString("distribuidora"),
-                        resultSet.getString("director"),
-                        resultSet.getInt("clasificacionEdad"),
-                        resultSet.getString("otrosdatos"),
-                        resultSet.getString("actores"),
-                        resultSet.getString("url_image"),
-                        resultSet.getString("url_video")
-                );
+
+        // Usamos un bloque try-with-resources para asegurar que los recursos se cierren correctamente.
+        try (PreparedStatement statement = connection.prepareStatement(
+                "SELECT * FROM pelicula WHERE nombrepelicula = ?")) {
+            // Establece el parámetro de la consulta de manera segura.
+            statement.setString(1, nombre);
+
+            // Ejecuta la consulta.
+            try (ResultSet resultSet = statement.executeQuery()) {
+
+                // Verifica si se obtuvo algún resultado y crea un objeto Pelicula.
+                if (resultSet.next()) {
+                    return new Pelicula(
+                            resultSet.getString("nombrepelicula"),
+                            resultSet.getString("sinopsis"),
+                            resultSet.getString("paginaOficial"),
+                            resultSet.getString("titulooriginal"),
+                            resultSet.getString("genero"),
+                            resultSet.getString("nacionalidad"),
+                            resultSet.getInt("duracion"),
+                            resultSet.getInt("anho"),
+                            resultSet.getString("distribuidora"),
+                            resultSet.getString("director"),
+                            resultSet.getInt("clasificacionEdad"),
+                            resultSet.getString("otrosdatos"),
+                            resultSet.getString("actores"),
+                            resultSet.getString("url_image"),
+                            resultSet.getString("url_video")
+                    );
+                }
+            } catch (SQLException e) {
+                // Manejo de errores de consulta.
+                e.printStackTrace();
+                // Considera registrar el error en un archivo de log.
+                // log("Error al obtener la película por nombre", e);
             }
+        } catch (SQLException e) {
+            // Manejo de errores de preparación de declaración.
+            e.printStackTrace();
+
         } finally {
             // Asegura que la conexión se cierre independientemente del resultado.
             cerrarConexion();
@@ -687,35 +701,6 @@ public class DatabaseManager {
         }
     }
 
-    /*
-    public static Usuario getUsuarioPorCorreo(String correo, String password) throws SQLException {
-        abrirConexion();
-        try {
-            // Vulnerable SQL query construction
-            String sql = "SELECT * FROM usuario WHERE email = '" + correo + "' and contrasenha = '" + password +"'";
-            System.out.println(sql);
-            Statement statement = connection.createStatement();
-            ResultSet resultSet = statement.executeQuery(sql);
-
-            if (resultSet.next()) {
-                // Create a new Usuario object from the result set
-                Usuario usuario = new Usuario(
-                        resultSet.getString("nombre"),
-                        resultSet.getString("apellidos"),
-                        resultSet.getString("contrasenha"),
-                        resultSet.getString("email"),
-                        new Fecha(resultSet.getString("fechanacimiento"))
-                );
-                System.out.println("Usuario encontrado: " + usuario);
-                return usuario;
-            } else {
-                System.out.println("No se encontraron resultados para el correo electrónico proporcionado.");
-                return null;
-            }
-        } finally {
-            cerrarConexion();
-        }
-    }*/
     public static void guardarComentario(Comentario comentario) throws SQLException {
         abrirConexion();
 

@@ -23,7 +23,11 @@
                     <input type="text" placeholder="Nombre" id="Name" name="Name"/>
                     <span id="error-nombre" class="error"></span>
                     <input type="text" placeholder="Apellidos" id="Apellidos" name="Apellidos"/>
-                    <span id="error-apellido" class="error"></span>		
+                    <span id="error-apellido" class="error"></span>
+                    <input type="password" placeholder="Contraseña" id="pswd" name="pswd"/>
+                    <span id="error-contrasena" class="error"></span>
+                    <input type="email" placeholder="Correo electronico" id="mail" name="mail"/>
+                    <span id="error-email" class="error"></span>			
                     <input type="date" placeholder="Fecha-nacimiento" id="Fecha-nacimiento" name="Fecha-nacimiento"/>
                     <span id="error-fecha" class="error"></span>
                     <button  type="submit" id="Registrar">Registrar</button>
@@ -38,8 +42,10 @@
                         <a href="#" class="social"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                     <span>o usa tu cuenta</span>
-                    <input type="text"   placeholder="Email" id = "mail-2" name="mail-2"/>
-                    <input type="text" placeholder="Contrasena" id = "pswd-2" name="pswd-2"/>
+                    <input type="email" placeholder="Correo electronico"  id = "mail-2" name="mail-2"/>
+                    <span id="error-email-acceso" class="error"></span>
+                    <input type="password" placeholder="Contrasena" id = "pswd-2" name="pswd-2"/>
+                    <span id="error-contrasena-acceso" class="error"></span>
                     <a href="#">¿Olvidaste tu contrasena?</a>
                     <button type="submit" id="Acceder">Acceder</button>
                 </form>

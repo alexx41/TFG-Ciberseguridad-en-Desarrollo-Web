@@ -3,11 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/GestionButacas.java</file>
-            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/CrearUsuario.java</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/GestionComentario.java</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/web/index.jsp</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/Logout.java</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/web/WEB-INF/web.xml</file>
             <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/model/DatabaseManager.java</file>
             <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/web/indexDetallado.jsp</file>
-            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/Reservas.java</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/LoginServlet.java</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/GestionEntrada.java</file>
+            <file>file:/C:/Users/Alejandro/OneDrive%20-%20Universidad%20de%20Alcala/4º%20año/TFG/PLF_Cines/src/java/com/example/servlets/FiltroCabeceras.java</file>
         </group>
     </open-files>
 </project-private>
