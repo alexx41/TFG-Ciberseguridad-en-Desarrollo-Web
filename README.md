@@ -5,4 +5,4 @@
  Esto queda a disposición de cualquiera, para que, en caso de que quiera mejorar las habilidades hacking, tenga algo tangible y facil de explotar.
 
 ## Máquina Virtual:
-En esta se encuentra la imagen que hay que importar desde nuestro virtualizador (se recomienda usar virtualBox). Es necesario leer el apartado de la memoria respectivo a la configuración de la máquina virtual.
+En esta se encuentra la imagen que hay que importar desde nuestro virtualizador (se recomienda usar virtualBox). Es necesario leer el apartado de la memoria respectivo a la configuración de la máquina virtual. Para usar la del proyecto solicitarla a través de la mensajería de GitHub.
